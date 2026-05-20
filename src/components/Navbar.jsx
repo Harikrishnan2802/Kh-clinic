@@ -57,7 +57,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-slate-900 dark:text-white leading-tight">
-                  KH Clinical
+                  KH Clinic
                 </span>
                 <span className="text-[10px] text-medical-600 dark:text-medical-400 font-medium tracking-wider uppercase">
                   Home Visit Care
