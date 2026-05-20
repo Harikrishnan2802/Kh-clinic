@@ -4,7 +4,7 @@ import { Phone } from 'lucide-react'
 export default function FloatingEmergency() {
   return (
     <motion.a
-      href="tel:+919952200808"
+      href="tel:+919486894678"
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 2, duration: 0.5 }}
