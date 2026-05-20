@@ -108,7 +108,7 @@ export default function HeroSection() {
               <motion.a
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                href="tel:+919952200808"
+                href="tel:+919486894678"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-emerald-300 bg-white/70 backdrop-blur-md text-emerald-600 font-semibold shadow-lg"
               >
                 <Phone className="w-5 h-5" />

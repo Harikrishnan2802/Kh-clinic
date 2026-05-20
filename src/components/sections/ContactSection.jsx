@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Phone, Mail, MapPin, MessageCircle, Clock, CheckCircle2, ArrowRight, Sparkles, Heart } from 'lucide-react'
 
-const WHATSAPP_NUMBER = '919952200808'
+const WHATSAPP_NUMBER = '919486894678'
 
 function buildWhatsAppMessage(formData) {
   return encodeURIComponent(
@@ -30,9 +30,9 @@ const contactCards = [
   {
     icon: Phone,
     label: 'Call Us',
-    value: '+91 99522 00808',
+    value: '+91 94868 94678',
     sub: 'Available 24/7',
-    href: 'tel:+919952200808',
+    href: 'tel:+919486894678',
     gradient: 'from-rose-400 to-pink-500',
     glow: 'shadow-pink-500/30',
     bg: 'hover:bg-pink-50 dark:hover:bg-pink-900/10',
@@ -607,11 +607,11 @@ export default function ContactSection() {
                       <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <p className="text-xs text-slate-400">Prefer to call directly?</p>
                         <a
-                          href="tel:+919952200808"
+                          href="tel:+919486894678"
                           className="flex items-center gap-1.5 text-sm font-semibold text-teal-600 dark:text-teal-400 hover:text-teal-700 transition-colors"
                         >
                           <Phone className="w-3.5 h-3.5" />
-                          +91 99522 00808
+                          +91 94868 94678
                         </a>
                       </div>
                     </motion.div>

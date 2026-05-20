@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
+import doctorImg from "../../assets/doctor.png";
 import {
   Award, Heart, Stethoscope, GraduationCap, Star,
   ChevronRight, Phone, MessageCircle, Shield, Zap,
@@ -32,7 +33,7 @@ const expertise = [
 
 const timeline = [
   { year: '2010',  title: 'MBBS – JIPMER',              desc: "Graduated from Jawaharlal Institute of Postgraduate Medical Education & Research — India's premier medical institution." },
-  { year: '2014',  title: 'MD – Internal Medicine',     desc: 'Post-graduation from JIPMER with specialisation in Internal Medicine and advanced diagnostics.' },
+  { year: '2014',  title: 'MD – Internal Medicine',      desc: 'Post-graduation from JIPMER with specialisation in Internal Medicine and advanced diagnostics.' },
   { year: '2016',  title: 'Fellowship – Clinical Cardiology', desc: 'Completed fellowship training in Clinical Cardiology, mastering ECG interpretation, cardiac emergencies, and heart disease management.' },
   { year: '2016+', title: 'KH Clinical Care – Founder', desc: "Launched KH Clinical Care to bring JIPMER-grade expertise directly to patients' homes across Puducherry." },
 ]
@@ -58,8 +59,13 @@ function useCountUp(target, duration = 1800, start = false) {
 }
 
 function StatCard({ stat, index, inView }) {
-  const count = useCountUp(stat.value, 1600, inView)
+  // Only animate values that are purely numeric with a simple suffix (e.g. "10+", "5000+", "98%")
+  // Skip animation for values like "24/7" that can't be cleanly split
+  const isAnimatable = /^\d+[^/]*$/.test(stat.value)
+  const count = useCountUp(stat.value, 1600, isAnimatable ? inView : false)
   const suffix = stat.value.replace(/[0-9]/g, '')
+  const displayValue = isAnimatable ? `${count}${suffix}` : stat.value
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -70,7 +76,7 @@ function StatCard({ stat, index, inView }) {
       <div className="stat-icon-wrap">
         <stat.icon className="w-5 h-5 text-white" />
       </div>
-      <div className="stat-value">{count}{suffix}</div>
+      <div className="stat-value">{displayValue}</div>
       <div className="stat-label">{stat.label}</div>
     </motion.div>
   )
@@ -99,9 +105,9 @@ export default function DoctorSection() {
           --site-teal-mid:    #0d9488;
           --site-teal-bright: #14b8a6;
           --site-cyan:        #22d3ee;
-          --site-bg-start:    #e6f7f6;   /* very light teal — left side of screenshot */
-          --site-bg-mid:      #f0fafa;   /* near-white teal centre */
-          --site-bg-end:      #ffffff;   /* pure white — right side of screenshot */
+          --site-bg-start:    #e6f7f6;
+          --site-bg-mid:      #f0fafa;
+          --site-bg-end:      #ffffff;
           --site-card-bg:     rgba(255,255,255,0.85);
           --site-card-border: rgba(13,148,136,0.14);
           --site-text-head:   #0c2340;
@@ -109,7 +115,6 @@ export default function DoctorSection() {
           --site-text-muted:  #6b7280;
         }
 
-        /* ── Section wrapper — soft teal-to-white gradient exactly like screenshot ── */
         .doctor-section {
           font-family: 'DM Sans', sans-serif;
           background: linear-gradient(
@@ -120,7 +125,6 @@ export default function DoctorSection() {
           );
           position: relative;
         }
-        /* Dark mode keeps a deep navy-teal */
         .dark .doctor-section {
           background: linear-gradient(120deg, #071a1a 0%, #0a1f2e 50%, #06101a 100%);
         }
@@ -134,7 +138,6 @@ export default function DoctorSection() {
           overflow: hidden;
           pointer-events: none;
         }
-        /* Soft radial blobs matching screenshot glow */
         .bg-blob-tl {
           position: absolute;
           top: -80px; left: -80px;
@@ -155,7 +158,6 @@ export default function DoctorSection() {
         .dark .bg-blob-br {
           background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
         }
-        /* Subtle grid */
         .bg-grid-doc {
           position: absolute;
           inset: 0;
@@ -165,7 +167,7 @@ export default function DoctorSection() {
           background-size: 44px 44px;
         }
 
-        /* ── Doctor card (the white frosted cards) ── */
+        /* ── Doctor card ── */
         .doctor-card {
           background: var(--site-card-bg);
           border: 1px solid var(--site-card-border);
@@ -198,36 +200,45 @@ export default function DoctorSection() {
           text-transform: uppercase;
         }
 
-        /* ── Spinning avatar ring — teal/cyan palette ── */
-        .avatar-ring {
-          width: 176px; height: 176px;
-          border-radius: 50%;
+        /* ── Doctor photo frame — stable rectangular, no rotation, no circular crop ── */
+        .avatar-frame {
+          width: 200px;
+          height: 240px;
+          border-radius: 20px;
           padding: 4px;
-          background: conic-gradient(
-            from 0deg,
+          background: linear-gradient(
+            145deg,
+            var(--site-teal-deep),
             var(--site-teal-mid),
-            var(--site-cyan),
             var(--site-teal-bright),
-            #67e8f9,
-            var(--site-teal-mid)
+            var(--site-cyan)
           );
-          animation: spin-ring 7s linear infinite;
-          box-shadow: 0 0 32px rgba(20,184,166,0.3), 0 0 64px rgba(34,211,238,0.12);
+          box-shadow:
+            0 8px 32px rgba(20,184,166,0.30),
+            0 2px 8px rgba(34,211,238,0.14);
+          flex-shrink: 0;
         }
-        @keyframes spin-ring { to { transform: rotate(360deg); } }
         .avatar-inner {
-          width: 100%; height: 100%;
-          border-radius: 50%;
-          background: linear-gradient(145deg, #e6f7f6, #b2ede8, #cef5f1);
+          width: 100%;
+          height: 100%;
+          border-radius: 17px;
+          background: linear-gradient(145deg, #e6f7f6, #cef5f1);
+          overflow: hidden;
+          border: 3px solid #f0fafa;
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           justify-content: center;
-          font-size: 70px;
-          border: 4px solid #f0fafa;
         }
         .dark .avatar-inner {
-          background: linear-gradient(145deg, #0a2828, #0d3838, #0a2828);
+          background: linear-gradient(145deg, #0a2828, #0d3838);
           border-color: #071a1a;
+        }
+        .avatar-inner img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: top center;
+          display: block;
         }
 
         /* ── Verified badge ── */
@@ -256,7 +267,7 @@ export default function DoctorSection() {
           padding: 14px 18px;
         }
 
-        /* ── Section badge (top) ── */
+        /* ── Section badge ── */
         .section-badge {
           display: inline-flex;
           align-items: center;
@@ -609,9 +620,15 @@ export default function DoctorSection() {
 
                 {/* Avatar + name */}
                 <div className="p-8 text-center">
+                  {/* Rectangular stable photo frame */}
                   <div className="flex justify-center mb-6">
-                    <div className="avatar-ring">
-                      <div className="avatar-inner">👨‍⚕️</div>
+                    <div className="avatar-frame">
+                      <div className="avatar-inner">
+                        <img
+                          src={doctorImg}
+                          alt="Dr. R. Hariprasad"
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -671,7 +688,7 @@ export default function DoctorSection() {
                       onMouseLeave={() => setHoveredCred(null)}
                     >
                       <div className={`cred-icon bg-gradient-to-br ${c.color}`}>
-                        <c.icon className="w-4.5 h-4.5 text-white w-5 h-5" />
+                        <c.icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <div className="cred-abbr">{c.label}</div>
@@ -686,12 +703,12 @@ export default function DoctorSection() {
 
                 {/* Card CTAs */}
                 <div className="px-6 pb-6 grid grid-cols-2 gap-3">
-                  <a href="tel:+919952200808" className="cta-primary justify-center text-sm py-3 px-4">
+                  <a href="tel:+919486894678" className="cta-primary justify-center text-sm py-3 px-4">
                     <Phone className="w-4 h-4" />
                     Call Now
                   </a>
                   <a
-                    href="https://wa.me/919952200808?text=Hello%20Dr.%20Hariprasad%2C%20I%20would%20like%20to%20consult%20with%20you."
+                    href="https://wa.me/919486894678?text=Hello%20Dr.%20Hariprasad%2C%20I%20would%20like%20to%20consult%20with%20you."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cta-wa justify-center text-sm py-3 px-4"
@@ -771,10 +788,10 @@ export default function DoctorSection() {
 
                     <div className="grid sm:grid-cols-2 gap-3">
                       {[
-                        { icon: '🏛️', title: 'JIPMER Trained',    desc: "India's #1 ranked medical institution" },
+                        { icon: '🏛️', title: 'JIPMER Trained',     desc: "India's #1 ranked medical institution" },
                         { icon: '❤️', title: 'Cardiology Fellow', desc: 'Specialized cardiac care expertise' },
-                        { icon: '🏠', title: 'Home Visits',       desc: 'Brings expert care to your doorstep' },
-                        { icon: '📋', title: 'Holistic Care',     desc: 'From diagnosis to full recovery support' },
+                        { icon: '🏠', title: 'Home Visits',        desc: 'Brings expert care to your doorstep' },
+                        { icon: '📋', title: 'Holistic Care',      desc: 'From diagnosis to full recovery support' },
                       ].map((h, i) => (
                         <motion.div
                           key={i}
@@ -903,12 +920,12 @@ export default function DoctorSection() {
                   </p>
                 </div>
                 <div className="flex gap-3 flex-shrink-0">
-                  <a href="tel:+919952200808" className="cta-primary text-sm py-3 px-5">
+                  <a href="tel:+919486894678" className="cta-primary text-sm py-3 px-5">
                     <Phone className="w-4 h-4" />
                     Call
                   </a>
                   <a
-                    href="https://wa.me/919952200808?text=Hello%20Dr.%20Hariprasad%2C%20I%20would%20like%20to%20book%20a%20home%20consultation."
+                    href="https://wa.me/919486894678?text=Hello%20Dr.%20Hariprasad%2C%20I%20would%20like%20to%20book%20a%20home%20consultation."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cta-wa text-sm py-3 px-5"

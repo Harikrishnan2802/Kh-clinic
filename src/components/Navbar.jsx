@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Sun, Moon, Heart, Phone } from 'lucide-react'
+import { Menu, X, Sun, Moon, Phone } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
+import khLogo from "../assets/logo.jpeg";
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -44,8 +45,13 @@ export default function Navbar() {
             {/* Logo */}
             <a href="#home" className="flex items-center gap-2 group">
               <div className="relative">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-medical-500 to-teal-500 flex items-center justify-center shadow-lg shadow-medical-500/20 group-hover:shadow-medical-500/40 transition-shadow">
-                  <Heart className="w-5 h-5 text-white" />
+                {/* Clinic logo image — circular, replaces Heart icon */}
+                <div className="w-14 h-14 rounded-full overflow-hidden shadow-lg shadow-medical-500/20 group-hover:shadow-medical-500/40 transition-shadow">
+                  <img
+                    src={khLogo}
+                    alt="KH Clinical Care"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-400 rounded-full animate-pulse" />
               </div>
@@ -88,7 +94,7 @@ export default function Navbar() {
               </button>
 
               <a
-                href="tel:+919952200808"
+                href="tel:+919486894678"
                 className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-medical-600 to-teal-500 text-white text-sm font-semibold shadow-lg shadow-medical-500/20 hover:shadow-medical-500/40 transition-shadow"
               >
                 <Phone className="w-4 h-4" />
@@ -148,11 +154,11 @@ export default function Navbar() {
                 </div>
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
                   <a
-                    href="tel:+919952200808"
+                    href="tel:+919486894678"
                     className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-full bg-gradient-to-r from-medical-600 to-teal-500 text-white font-semibold shadow-lg"
                   >
                     <Phone className="w-5 h-5" />
-                    <span>+91 99522 00808</span>
+                    <span>+91 94868 94678</span>
                   </a>
                 </div>
               </div>
